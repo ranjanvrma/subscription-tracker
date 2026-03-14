@@ -7,7 +7,11 @@ def add_subscription():
 
     name = input("Subscription Name: ")
     category = input("Category: ")
-    cost = float(input("Cost: "))
+    try:
+        cost = float(input("Cost: "))
+    except ValueError:
+        print("Invalid cost, please enter a number.")
+        return
     billing_cycle = input("Billing Cycle (Monthly, Yearly): ")
     start_date = input("Start Date (YYYY-MM-DD): ")
     
@@ -44,6 +48,22 @@ def add_subscription():
     cursor.close()
     conn.close()
 
+def remove_subscription():
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        subscription_id = int(input("Enter Subscription ID to remove: "))
+    except ValueError:
+        print("Invalid ID")
+        return
+    cursor.execute("delete from subscriptions where id = %s", (subscription_id,))
+    conn.commit()
+
+    print("Subscription removed!")
+
+    cursor.close()
+    conn.close()
+    
 def view_subscriptions():
     conn = get_connection()
     cursor = conn.cursor()
@@ -51,8 +71,9 @@ def view_subscriptions():
     cursor.execute("select * from subscriptions")
     results = cursor.fetchall()
 
+    print("\nYour Subscriptions:")
     for row in results:
-        print(row)
+        print(f"ID: {row[0]} | Name: {row[1]} | Category: {row[2]} | Cost: {row[3]} | Billing Cycle: {row[4]} | Start Date: {row[5]} | Next Renewal: {row[6]}")
     
     cursor.close()
     conn.close()
@@ -62,7 +83,8 @@ def main():
         print("\n ----Subscription Tracker----")
         print("1. Add Subscription")
         print("2. View Subscriptions")
-        print("3. Exit")
+        print("3. Remove Subscription")
+        print("4. Exit")
         choice = input("Choose Option: ")
 
         if choice == "1":
@@ -70,6 +92,8 @@ def main():
         elif choice == "2":
             view_subscriptions()    
         elif choice == "3":
+            remove_subscription()
+        elif choice == "4":
             print("Goodbye!")
             break
         else:
