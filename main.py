@@ -71,6 +71,9 @@ def view_subscriptions():
     cursor.execute("select * from subscriptions")
     results = cursor.fetchall()
 
+    if not results:
+        print("No subscriptions found.")
+        return
     print("\nYour Subscriptions:")
     for row in results:
         print(f"ID: {row[0]} | Name: {row[1]} | Category: {row[2]} | Cost: {row[3]} | Billing Cycle: {row[4]} | Start Date: {row[5]} | Next Renewal: {row[6]}")
