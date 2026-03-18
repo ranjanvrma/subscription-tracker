@@ -13,9 +13,9 @@ def add_subscription():
         print("Invalid cost, please enter a number.")
         return
     billing_cycle = input("Billing Cycle (Monthly, Yearly): ")
-    start_date = input("Start Date (YYYY-MM-DD): ")
+    start_date = input("Start Date (DD-MM-YYYY): ")
     
-    start_date_obj = datetime.strptime(start_date, "%Y-%m-%d")
+    start_date_obj = datetime.strptime(start_date, "%d-%m-%Y")
 
     if billing_cycle.lower() ==  "monthly":
         next_renewal = start_date_obj + timedelta(days=30)
@@ -73,10 +73,10 @@ def view_subscriptions():
 
     if not results:
         print("No subscriptions found.")
-        return
-    print("\nYour Subscriptions:")
-    for row in results:
-        print(f"ID: {row[0]} | Name: {row[1]} | Category: {row[2]} | Cost: {row[3]} | Billing Cycle: {row[4]} | Start Date: {row[5]} | Next Renewal: {row[6]}")
+    else:
+        print("\nYour Subscriptions:")
+        for row in results:
+            print(f"ID: {row[0]} | Name: {row[1]} | Category: {row[2]} | Cost: {row[3]} | Billing Cycle: {row[4]} | Start Date: {row[5]} | Next Renewal: {row[6]}")
     
     cursor.close()
     conn.close()
