@@ -2,7 +2,7 @@
 
 This project is a command-line based Subscription Tracker built using Python and MySQL.
 
-It allows users to manage personal subscriptions, track renewal dates, and monitor monthly spending.
+It allows users to manage personal subscriptions, track renewal dates, and monitor subscription details through a simple CLI interface.
 
 The goal of this project is to:
 - Design a relational database schema
@@ -15,14 +15,14 @@ The goal of this project is to:
 
 ## 📊 Problem Statement
 
-Many users subscribe to multiple services (Netflix, Spotify, software tools, gym memberships, etc.) and lose track of:
+Many users subscribe to multiple services (Netflix, Spotify, software tools, gym memberships, etc.) and often lose track of:
 
 - Monthly expenses
 - Renewal dates
-- Active vs cancelled subscriptions
-- Yearly spending impact
+- Active subscriptions
+- Unused subscriptions that still charge money
 
-This project solves that problem using a structured database system.
+This project helps users organize and manage subscriptions using a structured database system.
 
 ---
 
@@ -31,7 +31,7 @@ This project solves that problem using a structured database system.
 ### Table: `subscriptions`
 
 | Column | Description |
-|--------|------------|
+|------|-------------|
 | id | Unique subscription ID |
 | name | Subscription name |
 | category | Type (Streaming, Software, Gym, etc.) |
@@ -39,56 +39,76 @@ This project solves that problem using a structured database system.
 | billing_cycle | Monthly / Yearly |
 | start_date | Subscription start date |
 | next_renewal | Next renewal date |
-| status | Active / Cancelled |
 
-The `next_renewal` field is stored explicitly to support realistic billing scenarios.
+The `next_renewal` field is stored explicitly to support easier renewal tracking.
 
 ---
 
 ## 🛠 Tech Stack
 
-- Python  
-- MySQL  
-- mysql-connector-python  
-- MySQL Workbench  
-- VS Code  
+- Python
+- MySQL
+- mysql-connector-python
+- MySQL Workbench
+- VS Code
 
 ---
 
 ## 📈 Features Implemented
 
-- Add new subscription  
-- View active subscriptions  
-- Automatic next renewal calculation  
-- Structured CLI menu system  
-- MySQL backend integration  
+- Add a new subscription
+- View all subscriptions
+- Remove a subscription
+- Automatic next renewal date calculation
+- Menu-driven CLI interface
+- MySQL database integration
+- Input validation for user entries
 
 ---
 
-## 🔄 Workflow
+## 🔄 Project Workflow
 
-1. Create MySQL database and schema  
-2. Connect Python to MySQL  
-3. Implement insert and fetch operations  
-4. Build menu-driven CLI system  
-5. Commit structured project to GitHub  
+1. Create MySQL database and schema
+2. Connect Python to MySQL using `mysql-connector`
+3. Implement SQL queries for inserting, deleting, and retrieving data
+4. Build a CLI menu system for user interaction
+5. Structure project for GitHub with proper documentation
 
 ---
 
 ## 🚀 Future Enhancements
 
-- Monthly spending summary  
-- Upcoming renewals alert (next 7 days)  
-- Cancel subscription feature  
-- Category-wise spending analysis  
-- Budget limit warnings  
-- Streamlit web interface  
-- Spending prediction model (ML integration)  
+- Monthly spending summary
+- Upcoming renewal alerts (next 7 days)
+- Category-wise spending analysis
+- Budget tracking
+- Streamlit web dashboard
+- Machine learning model for spending prediction
 
 ---
 
 ## 📌 Setup Instructions
 
-1. Install dependencies:
-   ```bash
-   pip install mysql-connector-python
+### 1️⃣ Install dependencies
+
+```
+pip install mysql-connector-python
+```
+
+### 2️⃣ Create the database
+
+Run the SQL file provided in `schema.sql` using MySQL Workbench.
+
+### 3️⃣ Update database credentials
+
+Edit `db.py` with your MySQL username and password.
+
+### 4️⃣ Run the application
+
+```
+python main.py
+```
+---
+## 👤 Author
+
+Ranjan Verma | B.Tech Artificial Intelligence & Machine Learning
