@@ -27,8 +27,8 @@ def add_subscription():
     
     query = """
     insert into subscriptions
-    (name, category, cost, billing_cycle, start_date, next_renewal)
-    values (%s, %s, %s, %s, %s, %s)
+    (name, category, cost, billing_cycle, start_date, next_renewal, status)
+    values (%s, %s, %s, %s, %s, %s, %s)
     """
 
     values = (
@@ -37,7 +37,8 @@ def add_subscription():
         cost,
         billing_cycle,
         start_date_obj,
-        next_renewal.date()
+        next_renewal.date(),
+        "Active"
     )
 
     cursor.execute(query, values)
@@ -48,18 +49,18 @@ def add_subscription():
     cursor.close()
     conn.close()
 
-def remove_subscription():
+def cancel_subscription():
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        subscription_id = int(input("Enter Subscription ID to remove: "))
+        subscription_id = int(input("Enter Subscription ID to cancel: "))
     except ValueError:
         print("Invalid ID")
         return
-    cursor.execute("delete from subscriptions where id = %s", (subscription_id,))
+    cursor.execute("update subscriptions set status = %s where id = %s", ("Cancelled", subscription_id))
     conn.commit()
 
-    print("Subscription removed!")
+    print("Subscription cancelled!")
 
     cursor.close()
     conn.close()
@@ -76,7 +77,7 @@ def view_subscriptions():
     else:
         print("\nYour Subscriptions:")
         for row in results:
-            print(f"ID: {row[0]} | Name: {row[1]} | Category: {row[2]} | Cost: {row[3]} | Billing Cycle: {row[4]} | Start Date: {row[5]} | Next Renewal: {row[6]}")
+            print(f"ID: {row[0]} | Name: {row[1]} | Category: {row[2]} | Cost: {row[3]} | Billing Cycle: {row[4]} | Start Date: {row[5].strftime('%d-%m-%Y')} | Next Renewal: {row[6].strftime('%d-%m-%Y')} | Status: {row[7]}")
     
     cursor.close()
     conn.close()
@@ -86,7 +87,7 @@ def main():
         print("\n ----Subscription Tracker----")
         print("1. Add Subscription")
         print("2. View Subscriptions")
-        print("3. Remove Subscription")
+        print("3. Cancel Subscription")
         print("4. Exit")
         choice = input("Choose Option: ")
 
@@ -95,7 +96,7 @@ def main():
         elif choice == "2":
             view_subscriptions()    
         elif choice == "3":
-            remove_subscription()
+            cancel_subscription()
         elif choice == "4":
             print("Goodbye!")
             break
